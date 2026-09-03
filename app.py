@@ -140,35 +140,35 @@ elif opcion_pagina == "📆 Alertas de Asistencia DGETI":
     )
 
 # ==========================================
-# 📂 COMPONENTES INSTITUCIONALES (Descarga Directa Segura)
+# 📂 REPOSITORIO INSTITUCIONAL DINÁMICO (Aumenta archivos sin tocar el código)
 # ==========================================
 st.sidebar.markdown("---")
 st.sidebar.subheader("📂 Documentos Oficiales")
-st.sidebar.write("Descarga los lineamientos del curso:")
+st.sidebar.write("Descarga los lineamientos y circulares del curso:")
 
-try:
-    with open("./acuerdo_convivencia.pdf", "rb") as file_acuerdo:
-        st.sidebar.download_button(
-            label="📜 Descargar Acuerdo de Convivencia (PDF)",
-            data=file_acuerdo,
-            file_name="Acuerdo_de_Convivencia_3D.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
-except FileNotFoundError:
-    st.sidebar.info("ℹ️ Archivo 'acuerdo_convivencia.pdf' no encontrado.")
+# Lista calibrada con los nombres exactos de tus archivos en la carpeta
+archivos_escolares = [
+    {"archivo": "./acuerdo_convivencia.pdf", "label": "📜 Acuerdo de Convivencia General", "descarga": "Acuerdo_General_3D.pdf"},
+    {"archivo": "./temario_clase.pdf", "label": "📚 Temario de la Clase", "descarga": "Temario_Curso_3D.pdf"},
+    {"archivo": "./acuerdo_convivencia_clase.pdf", "label": "✍️ Acuerdo de Convivencia de Clase", "descarga": "Acuerdo_Clase_3D.pdf"} # <- Nombre de archivo corregido aquí
+]
 
-try:
-    with open("./temario_clase.pdf", "rb") as file_temario:
-        st.sidebar.download_button(
-            label="📚 Descargar Temario de la Clase (PDF)",
-            data=file_temario,
-            file_name="Temario_Clase_3D.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
-except FileNotFoundError:
-    st.sidebar.info("ℹ️ Archivo 'temario_clase.pdf' no encontrado.")
+# Ciclo automático: Lee la lista y fabrica un botón perfecto para cada uno en la web
+for doc in archivos_escolares:
+    try:
+        with open(doc["archivo"], "rb") as file_data:
+            st.sidebar.download_button(
+                label=doc["label"],
+                data=file_data.read(),
+                file_name=doc["descarga"],
+                mime="application/pdf",
+                use_container_width=True,
+                key=f"btn_{doc['descarga']}" # Llave única para evitar conflictos en Streamlit
+            )
+    except FileNotFoundError:
+        # Si no encuentra un archivo en el disco duro, no rompe la web, pasa al siguiente de forma silenciosa
+        pass
+
 
 # ==========================================
 # 🖨️ MÓDULO UNIVERSAL DE BOTÓN DE IMPRESIÓN
